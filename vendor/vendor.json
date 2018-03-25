@@ -1,6 +1,18 @@
 {
 	"comment": "",
 	"ignore": "test",
-	"package": [],
+	"package": [
+		{
+			"checksumSHA1": "1D8GzeoFGUs5FZOoyC2DpQg8c5Y=",
+			"path": "gopkg.in/mgo.v2",
+			"revision": "3f83fa5005286a7fe593b055f0d7771a7dce4655",
+			"revisionTime": "2016-08-18T02:01:20Z"
+		},
+		{
+			"checksumSHA1": "TYErwIHvBDxB1Ps9tzq4Fi7o3c0=",
+			"path": "time",
+			"revision": ""
+		}
+	],
 	"rootPath": "jug-api"
 }
