@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"github.com/go-gl/gl/all-core/gl"
 )
 
 const (

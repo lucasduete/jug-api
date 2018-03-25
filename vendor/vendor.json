@@ -3,10 +3,25 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "SP930krJVIAm1WBw1mdT+qZb0n8=",
+			"path": "database/sql",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "xP1PzHaYbP6yJLipAivO1nCtBjA=",
+			"path": "fmt",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "1D8GzeoFGUs5FZOoyC2DpQg8c5Y=",
 			"path": "gopkg.in/mgo.v2",
 			"revision": "3f83fa5005286a7fe593b055f0d7771a7dce4655",
 			"revisionTime": "2016-08-18T02:01:20Z"
+		},
+		{
+			"checksumSHA1": "YKstMu107tYOKyv2tTwyADSyCLU=",
+			"path": "log",
+			"revision": ""
 		},
 		{
 			"checksumSHA1": "TYErwIHvBDxB1Ps9tzq4Fi7o3c0=",
