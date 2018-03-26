@@ -14,7 +14,6 @@ func main() {
 	port := os.Getenv("PORT")
 	router := mux.NewRouter()
 
-
 	if port == "" {
 		port = "8080"
 	}
