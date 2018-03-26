@@ -5,10 +5,10 @@ import (
 	"github.com/gorilla/mux"
 	"net/http"
 	"fmt"
-	"jug-api/model"
+	"jug-api/controller"
 )
 
-var app = model.App{}
+var app = controller.App{}
 
 func main() {
 	port := os.Getenv("PORT")
@@ -19,12 +19,8 @@ func main() {
 		port = "8080"
 	}
 
-	router.HandleFunc("/", app.notFound).Methods("GET")
+	router.HandleFunc("/", app.NotFound).Methods("GET")
 
 	fmt.Println("Servidor Rodando na Porta " + port)
 	http.ListenAndServe(":"+port, router)
-}
-
-func (app *) notFound(response http.ResponseWriter, request *http.Request) {
-	fmt.Fprint(response, "ERROUUUUUU")
 }
