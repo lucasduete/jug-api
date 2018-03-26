@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"strconv"
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {
