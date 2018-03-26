@@ -33,6 +33,13 @@ func main() {
 	router.HandleFunc(url_base + "tecnologias", app.ListarTecnologias).Methods("GET")
 	router.HandleFunc(url_base + "tecnologias/tecnologia", app.GetTecById).Methods("GET")
 
+	//Response EndPoints
+	router.HandleFunc(url_base + "responses", app.SalvarResposta).Methods("POST")
+	router.HandleFunc(url_base + "responses", app.AtualizarResposta).Methods("PATCH")
+	router.HandleFunc(url_base + "responses", app.RemoverResposta).Methods("DELETE")
+	router.HandleFunc(url_base + "responses", app.ListarTecnologias).Methods("GET")
+	router.HandleFunc(url_base + "responses/response", app.GetRespById).Methods("GET")
+
 	//Defaults EndPoints
 	router.HandleFunc("/", app.NotFound).Methods("GET")
 
