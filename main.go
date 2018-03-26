@@ -19,6 +19,14 @@ func main() {
 		port = "8080"
 	}
 
+	//Users EndPoints
+	router.HandleFunc("/api/usuarios", app.SalvarUsuario).Methods("POST")
+	router.HandleFunc("/api/usuarios", app.AtualizarUsuario).Methods("PATCH")
+	router.HandleFunc("/api/usuarios", app.RemoverUsuario).Methods("DELETE")
+	router.HandleFunc("/api/usuarios", app.ListarUsuarios).Methods("GET")
+	router.HandleFunc("/api/usuarios/usuario", app.GetUserByEmail).Methods("GET")
+
+	//Defaults EndPoints
 	router.HandleFunc("/", app.NotFound).Methods("GET")
 
 	fmt.Println("Servidor Rodando na Porta " + port)
