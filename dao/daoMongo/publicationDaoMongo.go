@@ -9,7 +9,7 @@ import (
 
 type publicationDaoMongo struct{}
 
-const COLLECTION = "publication"
+const collection_publ = "publication"
 
 func (dao *publicationDaoMongo) Salvar(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
@@ -19,7 +19,7 @@ func (dao *publicationDaoMongo) Salvar(publication model.Publication) error {
 		return err
 	}
 
-	err = conn.C(COLLECTION).Insert(&publication)
+	err = conn.C(collection_publ).Insert(&publication)
 	return err
 }
 
@@ -31,7 +31,7 @@ func (dao *publicationDaoMongo) Atualizar(publication model.Publication) error {
 		return err
 	}
 
-	err = conn.C(COLLECTION).UpdateId(publication.ID, &publication)
+	err = conn.C(collection_publ).UpdateId(publication.ID, &publication)
 	return err
 }
 
@@ -43,7 +43,7 @@ func (dao *publicationDaoMongo) Remover(publication model.Publication) error {
 		return err
 	}
 
-	err = conn.C(COLLECTION).Remove(&publication)
+	err = conn.C(collection_publ).Remove(&publication)
 	return err
 }
 
@@ -56,7 +56,7 @@ func (dao *publicationDaoMongo) Listar() ([]model.Publication, error) {
 	}
 
 	var publs = []model.Publication{}
-	err = conn.C(COLLECTION).Find(bson.M{}).All(&publs)
+	err = conn.C(collection_publ).Find(bson.M{}).All(&publs)
 
 	if err != nil {
 		log.Fatal(err)
@@ -75,7 +75,7 @@ func (dao *publicationDaoMongo) GetPublById(id int, pub model.Publication) (erro
 		return err
 	}
 
-	err = conn.C(COLLECTION).FindId(id).One(&pub)
+	err = conn.C(collection_publ).FindId(id).One(&pub)
 
 	if err != nil {
 		log.Fatal(err)
