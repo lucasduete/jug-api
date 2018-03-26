@@ -2,6 +2,7 @@ package dao
 
 import (
 	"database/sql"
+	_ "github.com/lib/pq"
 	"fmt"
 	"log"
 	"gopkg.in/mgo.v2"
