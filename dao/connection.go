@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	USER = "postgres"
+	USER     = "postgres"
 	PASSWORD = "postgres"
 	DATABASE = "jug"
 )
