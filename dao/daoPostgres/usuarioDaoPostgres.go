@@ -10,6 +10,7 @@ type UserDaoPostgres struct{}
 
 func (dao *UserDaoPostgres) Salvar(user model.User) error {
 	conn, err := connection.GetConnectionPostgres()
+	defer conn.Close()
 
 	if err != nil {
 		log.Fatal(err)
@@ -30,6 +31,7 @@ func (dao *UserDaoPostgres) Salvar(user model.User) error {
 
 func (dao *UserDaoPostgres) Atualizar(user model.User) error {
 	conn, err := connection.GetConnectionPostgres()
+	defer conn.Close()
 
 	if err != nil {
 		log.Fatal(err)
@@ -50,6 +52,7 @@ func (dao *UserDaoPostgres) Atualizar(user model.User) error {
 
 func (dao *UserDaoPostgres) Remover(email string) error {
 	conn, err := connection.GetConnectionPostgres()
+	defer conn.Close()
 
 	if err != nil {
 		log.Fatal(err)
@@ -68,6 +71,7 @@ func (dao *UserDaoPostgres) Remover(email string) error {
 
 func (dao *UserDaoPostgres) Listar() ([]model.User, error) {
 	conn, err := connection.GetConnectionPostgres()
+	defer conn.Close()
 
 	if err != nil {
 		log.Fatal(err)
@@ -100,6 +104,7 @@ func (dao *UserDaoPostgres) Listar() ([]model.User, error) {
 
 func (dao *UserDaoPostgres) GetUserByEmail(user model.User, email string) (error) {
 	conn, err := connection.GetConnectionPostgres()
+	defer conn.Close()
 
 	if err != nil {
 		log.Fatal(err)
