@@ -11,6 +11,7 @@ import (
 var app = controller.App{}
 
 func main() {
+	url_base := "/api/"
 	port := os.Getenv("PORT")
 	router := mux.NewRouter()
 
@@ -19,11 +20,18 @@ func main() {
 	}
 
 	//Users EndPoints
-	router.HandleFunc("/api/usuarios", app.SalvarUsuario).Methods("POST")
-	router.HandleFunc("/api/usuarios", app.AtualizarUsuario).Methods("PATCH")
-	router.HandleFunc("/api/usuarios", app.RemoverUsuario).Methods("DELETE")
-	router.HandleFunc("/api/usuarios", app.ListarUsuarios).Methods("GET")
-	router.HandleFunc("/api/usuarios/usuario", app.GetUserByEmail).Methods("GET")
+	router.HandleFunc(url_base + "usuarios", app.SalvarUsuario).Methods("POST")
+	router.HandleFunc(url_base + "usuarios", app.AtualizarUsuario).Methods("PATCH")
+	router.HandleFunc(url_base + "usuarios", app.RemoverUsuario).Methods("DELETE")
+	router.HandleFunc(url_base + "usuarios", app.ListarUsuarios).Methods("GET")
+	router.HandleFunc(url_base + "usuarios/usuario", app.GetUserByEmail).Methods("GET")
+
+	//Tecnology EndPoints
+	router.HandleFunc(url_base + "tecnologias", app.SalvarTecnologia).Methods("POST")
+	router.HandleFunc(url_base + "tecnologias", app.AtualizarTecnologia).Methods("PATCH")
+	router.HandleFunc(url_base + "tecnologias", app.RemoverTecnologia).Methods("DELETE")
+	router.HandleFunc(url_base + "tecnologias", app.ListarTecnologias).Methods("GET")
+	router.HandleFunc(url_base + "tecnologias/tecnologia", app.GetTecById).Methods("GET")
 
 	//Defaults EndPoints
 	router.HandleFunc("/", app.NotFound).Methods("GET")
