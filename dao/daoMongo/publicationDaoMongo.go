@@ -7,11 +7,11 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type publicationDaoMongo struct{}
+type PublicationDaoMongo struct{}
 
 const collection_publ = "publication"
 
-func (dao *publicationDaoMongo) Salvar(publication model.Publication) error {
+func (dao *PublicationDaoMongo) Salvar(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
 
 	if err != nil {
@@ -23,7 +23,7 @@ func (dao *publicationDaoMongo) Salvar(publication model.Publication) error {
 	return err
 }
 
-func (dao *publicationDaoMongo) Atualizar(publication model.Publication) error {
+func (dao *PublicationDaoMongo) Atualizar(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
 
 	if err != nil {
@@ -35,7 +35,7 @@ func (dao *publicationDaoMongo) Atualizar(publication model.Publication) error {
 	return err
 }
 
-func (dao *publicationDaoMongo) Remover(publication model.Publication) error {
+func (dao *PublicationDaoMongo) Remover(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
 
 	if err != nil {
@@ -47,7 +47,7 @@ func (dao *publicationDaoMongo) Remover(publication model.Publication) error {
 	return err
 }
 
-func (dao *publicationDaoMongo) Listar() ([]model.Publication, error) {
+func (dao *PublicationDaoMongo) Listar() ([]model.Publication, error) {
 	conn, err := connection.GetConnectionMongo()
 
 	if err != nil {
@@ -67,7 +67,7 @@ func (dao *publicationDaoMongo) Listar() ([]model.Publication, error) {
 
 }
 
-func (dao *publicationDaoMongo) GetPublById(id int, pub model.Publication) (error) {
+func (dao *PublicationDaoMongo) GetPublById(id int, pub model.Publication) (error) {
 	conn, err := connection.GetConnectionMongo()
 
 	if err != nil {
