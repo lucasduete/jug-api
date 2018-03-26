@@ -7,7 +7,7 @@ import (
 	"gopkg.in/mgo.v2/bson"
 )
 
-type publicationDaoMongo struct {}
+type publicationDaoMongo struct{}
 
 const COLLECTION = "publication"
 
@@ -47,7 +47,7 @@ func (dao *publicationDaoMongo) Remover(publication model.Publication) error {
 	return err
 }
 
-func (dao *publicationDaoMongo) Listar () ([]model.Publication, error) {
+func (dao *publicationDaoMongo) Listar() ([]model.Publication, error) {
 	conn, err := connection.GetConnectionMongo()
 
 	if err != nil {

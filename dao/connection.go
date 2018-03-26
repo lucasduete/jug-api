@@ -27,7 +27,7 @@ func GetConnectionPostgres() (*sql.DB, error) {
 	return conn, err
 }
 
-func GetConnectionMongo() (*mgo.Database, error)  {
+func GetConnectionMongo() (*mgo.Database, error) {
 	session, err := mgo.Dial(SERVER_MONGO)
 
 	if err != nil {
