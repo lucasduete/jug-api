@@ -13,6 +13,12 @@
 			"revision": ""
 		},
 		{
+			"checksumSHA1": "Ne2HHjBVT8tegOp3l3ataHYmq9M=",
+			"path": "github.com/gorilla/mux",
+			"revision": "07ba1fd60e210dc5cc6f86ec25dc9ecc7c95c295",
+			"revisionTime": "2018-02-26T05:11:51Z"
+		},
+		{
 			"checksumSHA1": "1D8GzeoFGUs5FZOoyC2DpQg8c5Y=",
 			"path": "gopkg.in/mgo.v2",
 			"revision": "3f83fa5005286a7fe593b055f0d7771a7dce4655",
@@ -21,6 +27,16 @@
 		{
 			"checksumSHA1": "YKstMu107tYOKyv2tTwyADSyCLU=",
 			"path": "log",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "MzvmZZOO9/0iIQn1jrG4xChEK5s=",
+			"path": "net/http",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "m2h3ZK5Xs3IUlVlzZJQK7m3zrJo=",
+			"path": "os",
 			"revision": ""
 		},
 		{
