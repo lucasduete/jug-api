@@ -71,6 +71,8 @@ func (app *App) ListarUsuarios(response http.ResponseWriter, request *http.Reque
 
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Usuários")
+	} else if len(users) == 0 {
+		respondWithMessage(response, 204, "Não há Usuários")
 	} else {
 		respondWithJSON(response, 200, users)
 	}
@@ -92,6 +94,8 @@ func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Reque
 
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Usuário")
+	} else if user.Email == "" {
+		respondWithMessage(response, 204, "Usuário não Existe")
 	} else {
 		respondWithJSON(response, 200, user)
 	}
