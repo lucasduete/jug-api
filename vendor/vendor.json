@@ -8,6 +8,11 @@
 			"revision": ""
 		},
 		{
+			"checksumSHA1": "CU/4pLQSyejn8nulcEEw3o/f5qc=",
+			"path": "encoding/json",
+			"revision": ""
+		},
+		{
 			"checksumSHA1": "xP1PzHaYbP6yJLipAivO1nCtBjA=",
 			"path": "fmt",
 			"revision": ""
