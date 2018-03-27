@@ -13,6 +13,7 @@ const collection_publ = "publication"
 
 func (dao *PublicationDaoMongo) Salvar(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -25,6 +26,7 @@ func (dao *PublicationDaoMongo) Salvar(publication model.Publication) error {
 
 func (dao *PublicationDaoMongo) Atualizar(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -37,6 +39,7 @@ func (dao *PublicationDaoMongo) Atualizar(publication model.Publication) error {
 
 func (dao *PublicationDaoMongo) Remover(publication model.Publication) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -49,6 +52,7 @@ func (dao *PublicationDaoMongo) Remover(publication model.Publication) error {
 
 func (dao *PublicationDaoMongo) Listar() ([]model.Publication, error) {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -69,6 +73,7 @@ func (dao *PublicationDaoMongo) Listar() ([]model.Publication, error) {
 
 func (dao *PublicationDaoMongo) GetPublById(id int, pub model.Publication) (error) {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
