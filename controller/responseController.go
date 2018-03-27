@@ -7,6 +7,8 @@ import (
 	"jug-api/model"
 	"github.com/gorilla/mux"
 	"strconv"
+	"gopkg.in/mgo.v2/bson"
+	"encoding/hex"
 )
 
 func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Request) {
@@ -108,5 +110,25 @@ func (app *App) GetRespById(response http.ResponseWriter, request *http.Request)
 }
 
 func (app *App) GetRespByPubl(response http.ResponseWriter, request *http.Request) {
-	//TODO
+	vars := mux.Vars(request)
+	temp := vars["idPublication"]
+
+	if temp == "" || len(temp) == 0 {
+		respondWithMessage(response, 400, "Id da Publucação é Inválida")
+	}
+
+	idPublication := bson.ObjectIdHex(temp)
+	dao := daoMongo.ResponseDaoMongo{}
+
+	resps, err := dao.GetRespsByPubl(idPublication)
+
+	if err != nil {
+		respondWithMessage(response, 500, "Erro ao Recuperar Respostas")
+	} else if len(resps) == 0 {
+		respondWithMessage(response, 204, "Não Há Respostas Cadastradas")
+	} else {
+		respondWithJSON(response, 200, resps)
+	}
+
+
 }

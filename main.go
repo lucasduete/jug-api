@@ -40,6 +40,7 @@ func main() {
 	router.HandleFunc(url_base+"responses", app.RemoverResposta).Methods("DELETE")
 	router.HandleFunc(url_base+"responses", app.ListarTecnologias).Methods("GET")
 	router.HandleFunc(url_base+"responses/response", app.GetRespById).Methods("GET")
+	router.HandleFunc(url_base+"responses/publication", app.GetRespByPubl).Methods("GET")
 
 	//Publication EndPoints
 	router.HandleFunc(url_base+"publications", app.SalvarPublication).Methods("POST")
