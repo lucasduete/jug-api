@@ -88,5 +88,24 @@ func (dao *PublicationDaoMongo) GetPublById(id int, pub model.Publication) (erro
 	} else {
 		return nil
 	}
+}
 
+func (dao *PublicationDaoMongo) GetPublsByTec(tecnology model.Tecnology) ([]model.Publication, error) {
+	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	publs := []model.Publication{}
+	err = conn.C(collection_publ).Find(bson.M{"tecnologia": tecnology}).All(&publs)
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	} else {
+		return publs, nil
+	}
 }
