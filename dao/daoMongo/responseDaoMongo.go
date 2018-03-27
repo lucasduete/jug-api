@@ -85,3 +85,23 @@ func (dao *ResponseDaoMongo) GetRespById(id int, response model.Response) error 
 	err = conn.C(collection_resp).FindId(id).One(&response)
 	return err
 }
+
+func (dao *ResponseDaoMongo) GetRespsByPubl(idPublication bson.ObjectId) ([]model.Response, error) {
+	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	var resps = []model.Response{}
+	err = conn.C(collection_resp).Find(bson.M{"idPublication": idPublication}).All(&resps)
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	} else {
+		return resps, nil
+	}
+}

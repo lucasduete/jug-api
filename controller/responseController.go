@@ -106,3 +106,7 @@ func (app *App) GetRespById(response http.ResponseWriter, request *http.Request)
 		respondWithJSON(response, 200, resp)
 	}
 }
+
+func (app *App) GetRespByPubl(response http.ResponseWriter, request *http.Request) {
+	//TODO
+}
