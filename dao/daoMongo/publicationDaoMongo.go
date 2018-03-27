@@ -90,7 +90,7 @@ func (dao *PublicationDaoMongo) GetPublById(id int, pub model.Publication) (erro
 	}
 }
 
-func (dao *PublicationDaoMongo) GetPublsByTec(tecnology model.Tecnology) ([]model.Publication, error) {
+func (dao *PublicationDaoMongo) GetPublsByTec(tecnology string) ([]model.Publication, error) {
 	conn, err := connection.GetConnectionMongo()
 	defer conn.Logout()
 

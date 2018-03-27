@@ -104,5 +104,26 @@ func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)
 	} else {
 		respondWithJSON(response, 200, publ)
 	}
+}
 
+func (app *App) GetPublsByTec(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
+	vars := mux.Vars(request)
+	tecnology := vars["tecnologia"]
+
+	if tecnology == "" || len(tecnology) == 0 {
+		respondWithMessage(response, 400, "Tecnologia Inválida")
+	}
+
+	dao := daoMongo.PublicationDaoMongo{}
+	publs, err := dao.GetPublsByTec(tecnology)
+
+	if err != nil {
+		respondWithMessage(response, 500, "Erro ao Recuperar Publicação")
+	} else if len(publs) == 0 {
+		respondWithMessage(response, 204, "Publicação Não Foi Econtrada")
+	} else {
+		respondWithJSON(response, 200, publs)
+	}
 }
