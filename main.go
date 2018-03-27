@@ -24,7 +24,7 @@ func main() {
 	router.HandleFunc(url_base+"usuarios", app.AtualizarUsuario).Methods("PATCH")
 	router.HandleFunc(url_base+"usuarios", app.RemoverUsuario).Methods("DELETE")
 	router.HandleFunc(url_base+"usuarios", app.ListarUsuarios).Methods("GET")
-	router.HandleFunc(url_base+"usuarios/usuario", app.GetUserByEmail).Methods("GET")
+	router.HandleFunc(url_base+"usuarios/usuario", app.GetUserByEmail).Methods("POST")
 	router.HandleFunc(url_base+"usuarios/login", app.Login).Methods("POST")
 
 	//Tecnology EndPoints
@@ -32,22 +32,23 @@ func main() {
 	router.HandleFunc(url_base+"tecnologias", app.AtualizarTecnologia).Methods("PATCH")
 	router.HandleFunc(url_base+"tecnologias", app.RemoverTecnologia).Methods("DELETE")
 	router.HandleFunc(url_base+"tecnologias", app.ListarTecnologias).Methods("GET")
-	router.HandleFunc(url_base+"tecnologias/tecnologia", app.GetTecById).Methods("GET")
+	router.HandleFunc(url_base+"tecnologias/tecnologia", app.GetTecById).Methods("POST")
 
 	//Response EndPoints
 	router.HandleFunc(url_base+"responses", app.SalvarResposta).Methods("POST")
 	router.HandleFunc(url_base+"responses", app.AtualizarResposta).Methods("PATCH")
 	router.HandleFunc(url_base+"responses", app.RemoverResposta).Methods("DELETE")
 	router.HandleFunc(url_base+"responses", app.ListarTecnologias).Methods("GET")
-	router.HandleFunc(url_base+"responses/response", app.GetRespById).Methods("GET")
-	router.HandleFunc(url_base+"responses/publication", app.GetRespByPubl).Methods("GET")
+	router.HandleFunc(url_base+"responses/response", app.GetRespById).Methods("POST")
+	router.HandleFunc(url_base+"responses/publication", app.GetRespByPubl).Methods("POST")
 
 	//Publication EndPoints
 	router.HandleFunc(url_base+"publications", app.SalvarPublication).Methods("POST")
 	router.HandleFunc(url_base+"publications", app.AtualizarPublication).Methods("PATCH")
 	router.HandleFunc(url_base+"publications", app.RemoverPublication).Methods("DELETE")
 	router.HandleFunc(url_base+"publications", app.ListarPublications).Methods("GET")
-	router.HandleFunc(url_base+"publications/publication", app.GetPublById).Methods("GET")
+	router.HandleFunc(url_base+"publications/publication", app.GetPublById).Methods("POST")
+	router.HandleFunc(url_base+"publications/tecnology", app.GetPublsByTec).Methods("POST")
 
 	//Defaults EndPoints
 	router.HandleFunc("/", app.NotFound).Methods("GET")
