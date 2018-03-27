@@ -11,6 +11,8 @@ import (
 )
 
 func (app *App) SalvarTecnologia(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	tec := model.Tecnology{}
 
 	if err := json.NewDecoder(request.Body).Decode(&tec); err != nil {
@@ -29,6 +31,8 @@ func (app *App) SalvarTecnologia(response http.ResponseWriter, request *http.Req
 }
 
 func (app *App) AtualizarTecnologia(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	tec := model.Tecnology{}
 
 	if err := json.NewDecoder(request.Body).Decode(&tec); err != nil {
@@ -49,6 +53,8 @@ func (app *App) AtualizarTecnologia(response http.ResponseWriter, request *http.
 }
 
 func (app *App) RemoverTecnologia(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	tec := model.Tecnology{}
 
 	if err := json.NewDecoder(request.Body).Decode(&tec); err != nil {
@@ -67,6 +73,8 @@ func (app *App) RemoverTecnologia(response http.ResponseWriter, request *http.Re
 }
 
 func (app *App) ListarTecnologias(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	dao := daoMongo.TecnologyDaoMongo{}
 	tecs, err := dao.Listar()
 
@@ -80,6 +88,8 @@ func (app *App) ListarTecnologias(response http.ResponseWriter, request *http.Re
 }
 
 func (app *App) GetTecById(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	vars := mux.Vars(request)
 	id, err := strconv.Atoi(vars["id"])
 
