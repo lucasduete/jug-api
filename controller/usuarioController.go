@@ -9,6 +9,8 @@ import (
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	user := model.User{}
 
 	if err := json.NewDecoder(request.Body).Decode(&user); err != nil {
@@ -27,6 +29,7 @@ func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Reques
 }
 
 func (app *App) AtualizarUsuario(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
 
 	user := model.User{}
 
@@ -46,6 +49,8 @@ func (app *App) AtualizarUsuario(response http.ResponseWriter, request *http.Req
 }
 
 func (app *App) RemoverUsuario(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	vars := mux.Vars(request)
 	email := vars["email"]
 
@@ -65,6 +70,7 @@ func (app *App) RemoverUsuario(response http.ResponseWriter, request *http.Reque
 }
 
 func (app *App) ListarUsuarios(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
 
 	dao := daoPostgres.UserDaoPostgres{}
 	users, err := dao.Listar()
@@ -79,6 +85,8 @@ func (app *App) ListarUsuarios(response http.ResponseWriter, request *http.Reque
 }
 
 func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	vars := mux.Vars(request)
 	email := vars["email"]
 
