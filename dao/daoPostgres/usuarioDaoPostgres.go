@@ -4,6 +4,7 @@ import (
 	"jug-api/model"
 	connection "jug-api/dao"
 	"log"
+	"strings"
 )
 
 type UserDaoPostgres struct{}
@@ -120,6 +121,29 @@ func (dao *UserDaoPostgres) GetUserByEmail(user model.User, email string) (error
 		return err
 	} else {
 		return nil
+	}
+}
+
+func (dao *UserDaoPostgres) Login(email,senha string) (bool, error) {
+	conn, err := connection.GetConnectionPostgres()
+
+	if err != nil {
+		log.Fatal(err)
+		return false, err
+	}
+
+	var password string
+	err = conn.QueryRow("SELECT Senha FROM Usuario WHERE Email LIKE $1", email).Scan(&password)
+
+	if err != nil {
+		log.Fatal(err)
+		return false, err
+	}
+
+	if strings.Compare(senha, password) == 0 {
+		return true, nil
+	} else {
+		return false, nil
 	}
 
 }
