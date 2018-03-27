@@ -13,6 +13,7 @@ const collection_tec = "tecnology"
 
 func (dao *TecnologyDaoMongo) Salvar(tecnology model.Tecnology) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -25,6 +26,7 @@ func (dao *TecnologyDaoMongo) Salvar(tecnology model.Tecnology) error {
 
 func (dao *TecnologyDaoMongo) Atualizar(id int, tecnology model.Tecnology) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -37,6 +39,7 @@ func (dao *TecnologyDaoMongo) Atualizar(id int, tecnology model.Tecnology) error
 
 func (dao *TecnologyDaoMongo) Remover(tecnology model.Tecnology) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -49,6 +52,7 @@ func (dao *TecnologyDaoMongo) Remover(tecnology model.Tecnology) error {
 
 func (dao *TecnologyDaoMongo) Listar() ([]model.Tecnology, error) {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -68,6 +72,7 @@ func (dao *TecnologyDaoMongo) Listar() ([]model.Tecnology, error) {
 
 func (dao *TecnologyDaoMongo) GetTecById(id int, tecnology model.Tecnology) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
