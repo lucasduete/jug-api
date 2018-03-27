@@ -10,6 +10,8 @@ import (
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	publ := model.Publication{}
 
 	if err := json.NewDecoder(request.Body).Decode(&publ); err != nil {
@@ -28,6 +30,8 @@ func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Re
 }
 
 func (app *App) AtualizarPublication(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	publ := model.Publication{}
 
 	if err := json.NewDecoder(request.Body).Decode(&publ); err != nil {
@@ -45,6 +49,8 @@ func (app *App) AtualizarPublication(response http.ResponseWriter, request *http
 }
 
 func (app *App) RemoverPublication(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	publ := model.Publication{}
 
 	if err := json.NewDecoder(request.Body).Decode(&publ); err != nil {
@@ -62,6 +68,8 @@ func (app *App) RemoverPublication(response http.ResponseWriter, request *http.R
 }
 
 func (app *App) ListarPublications(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	dao := daoMongo.PublicationDaoMongo{}
 	publs, err := dao.Listar()
 
@@ -75,6 +83,8 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 }
 
 func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)  {
+	defer request.Body.Close()
+
 	vars := mux.Vars(request)
 	id, err := strconv.Atoi(vars["id"])
 
