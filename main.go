@@ -40,6 +40,13 @@ func main() {
 	router.HandleFunc(url_base + "responses", app.ListarTecnologias).Methods("GET")
 	router.HandleFunc(url_base + "responses/response", app.GetRespById).Methods("GET")
 
+	//Publication EndPoints
+	router.HandleFunc(url_base + "publications", app.SalvarPublication).Methods("POST")
+	router.HandleFunc(url_base + "publications", app.AtualizarPublication).Methods("PATCH")
+	router.HandleFunc(url_base + "publications", app.RemoverPublication).Methods("DELETE")
+	router.HandleFunc(url_base + "publications", app.ListarPublications).Methods("GET")
+	router.HandleFunc(url_base + "publications/publication", app.GetPublById).Methods("GET")
+
 	//Defaults EndPoints
 	router.HandleFunc("/", app.NotFound).Methods("GET")
 
