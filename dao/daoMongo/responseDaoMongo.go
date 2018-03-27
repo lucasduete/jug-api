@@ -13,6 +13,7 @@ const collection_resp = "response"
 
 func (dao *ResponseDaoMongo) Salvar(resp model.Response) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -26,6 +27,7 @@ func (dao *ResponseDaoMongo) Salvar(resp model.Response) error {
 
 func (dao *ResponseDaoMongo) Atualizar(resp model.Response) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -39,6 +41,7 @@ func (dao *ResponseDaoMongo) Atualizar(resp model.Response) error {
 
 func (dao *ResponseDaoMongo) Remover(resp model.Response) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -52,6 +55,7 @@ func (dao *ResponseDaoMongo) Remover(resp model.Response) error {
 
 func (dao *ResponseDaoMongo) Listar() ([]model.Response, error)  {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
@@ -71,6 +75,7 @@ func (dao *ResponseDaoMongo) Listar() ([]model.Response, error)  {
 
 func (dao *ResponseDaoMongo) GetRespById(id int, response model.Response) error {
 	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
