@@ -10,6 +10,8 @@ import (
 )
 
 func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	resp := model.Response{}
 
 	if err := json.NewDecoder(request.Body).Decode(&resp); err != nil {
@@ -28,6 +30,8 @@ func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Reque
 }
 
 func (app *App) AtualizarResposta(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	resp := model.Response{}
 
 	if err := json.NewDecoder(request.Body).Decode(&resp); err != nil {
@@ -45,6 +49,8 @@ func (app *App) AtualizarResposta(response http.ResponseWriter, request *http.Re
 }
 
 func (app *App) RemoverResposta(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	resp := model.Response{}
 
 	if err := json.NewDecoder(request.Body).Decode(&resp); err != nil {
@@ -63,6 +69,7 @@ func (app *App) RemoverResposta(response http.ResponseWriter, request *http.Requ
 }
 
 func (app *App) ListarRespostas(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
 
 	dao := daoMongo.ResponseDaoMongo{}
 	resps, err := dao.Listar()
@@ -77,6 +84,8 @@ func (app *App) ListarRespostas(response http.ResponseWriter, request *http.Requ
 }
 
 func (app *App) GetRespById(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
 	vars := mux.Vars(request)
 	id, err := strconv.Atoi(vars["id"])
 
