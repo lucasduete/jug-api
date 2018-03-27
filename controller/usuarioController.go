@@ -108,3 +108,24 @@ func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Reque
 		respondWithJSON(response, 200, user)
 	}
 }
+
+func (app *App) Login(response http.ResponseWriter, request *http.Request) {
+	vars := mux.Vars(request)
+	email := vars["email"]
+	senha := vars["senha"]
+
+	if email == "" || len(email) == 0 || senha == "" || len(senha) == 0 {
+		respondWithMessage(response, 400, "Dados Inválidos")
+	}
+
+	dao := daoPostgres.UserDaoPostgres{}
+	status, err := dao.Login(email, senha)
+
+	if err != nil {
+		respondWithMessage(response, 500, "Erro ao Realizar Login")
+	} else if status == false {
+		respondWithJSON(response, 401, "Usuário Não Autorizado")
+	} else {
+		respondWithJSON(response, 200, "Usuário Autorizado")
+	}
+}
