@@ -110,9 +110,8 @@ func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Reque
 }
 
 func (app *App) Login(response http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	email := vars["email"]
-	senha := vars["senha"]
+	email := request.FormValue("email")
+	senha := request.FormValue("senha")
 
 	if email == "" || len(email) == 0 || senha == "" || len(senha) == 0 {
 		respondWithMessage(response, 400, "Dados Inválidos")
