@@ -5,7 +5,6 @@ import (
 	"jug-api/dao/daoPostgres"
 	"net/http"
 	"encoding/json"
-	"github.com/gorilla/mux"
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {
