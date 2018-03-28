@@ -92,14 +92,12 @@ func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Reque
 		return
 	}
 
-	var user = model.User{}
 	dao := daoPostgres.UserDaoPostgres{}
-
-	err := dao.GetUserByEmail(user, email)
+	user, err := dao.GetUserByEmail(email)
 
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Usuário")
-	} else if user.Email == "" {
+	} else if len(user.Email) == 0 {
 		respondWithMessage(response, 204, "Usuário não Existe")
 	} else {
 		respondWithJSON(response, 200, user)

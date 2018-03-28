@@ -103,28 +103,28 @@ func (dao *UserDaoPostgres) Listar() ([]model.User, error) {
 	return users, nil
 }
 
-func (dao *UserDaoPostgres) GetUserByEmail(user model.User, email string) (error) {
+func (dao *UserDaoPostgres) GetUserByEmail(email string) (*model.User, error) {
+	user := model.User{}
 	conn, err := connection.GetConnectionPostgres()
 	defer conn.Close()
 
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	}
 
-	err = conn.QueryRow("SELECT Nome, Username, Email, Senha  FROM Usuario "+
-		"WHERE Email LIKE $1", email).Scan(&user.Nome, &user.Username, &user.Email, &user.Senha,
-		&user.Email)
+	err = conn.QueryRow("SELECT Nome, Username, Email, Senha FROM Usuario "+
+		"WHERE Email LIKE $1", email).Scan(&user.Nome, &user.Username, &user.Email, &user.Senha)
 
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	} else {
-		return nil
+		return &user, nil
 	}
 }
 
-func (dao *UserDaoPostgres) Login(email,senha string) (bool, error) {
+func (dao *UserDaoPostgres) Login(email, senha string) (bool, error) {
 	conn, err := connection.GetConnectionPostgres()
 
 	if err != nil {
