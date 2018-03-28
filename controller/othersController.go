@@ -7,6 +7,7 @@ import (
 )
 
 func (app *App) NotFound(response http.ResponseWriter, request *http.Request) {
+	response.WriteHeader(404)
 	fmt.Fprint(response, "ERROUUUUUU")
 }
 
