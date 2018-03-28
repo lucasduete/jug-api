@@ -51,8 +51,7 @@ func (app *App) AtualizarUsuario(response http.ResponseWriter, request *http.Req
 func (app *App) RemoverUsuario(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
-	vars := mux.Vars(request)
-	email := vars["email"]
+	email := request.FormValue("email")
 
 	if email == "" {
 		respondWithMessage(response, http.StatusBadRequest, "Email Inválido")
@@ -87,8 +86,7 @@ func (app *App) ListarUsuarios(response http.ResponseWriter, request *http.Reque
 func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
-	vars := mux.Vars(request)
-	email := vars["email"]
+	email := request.FormValue("email")
 
 	if email == "" {
 		respondWithMessage(response, 400, "Email Inválido")
