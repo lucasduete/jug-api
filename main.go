@@ -22,9 +22,9 @@ func main() {
 	//Users EndPoints
 	router.HandleFunc(url_base+"usuarios/", app.SalvarUsuario).Methods("POST")
 	router.HandleFunc(url_base+"usuarios/", app.AtualizarUsuario).Methods("PATCH")
-	router.HandleFunc(url_base+"usuarios/", app.RemoverUsuario).Methods("DELETE")
+	router.HandleFunc(url_base+"usuarios/{email}", app.RemoverUsuario).Methods("DELETE")
 	router.HandleFunc(url_base+"usuarios/", app.ListarUsuarios).Methods("GET")
-	router.HandleFunc(url_base+"usuarios/usuario/", app.GetUserByEmail).Methods("POST")
+	router.HandleFunc(url_base+"usuarios/usuario/{email}", app.GetUserByEmail).Methods("GET")
 	router.HandleFunc(url_base+"usuarios/login/", app.Login).Methods("POST")
 
 	//Tecnology EndPoints
