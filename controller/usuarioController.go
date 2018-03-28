@@ -5,6 +5,7 @@ import (
 	"jug-api/dao/daoPostgres"
 	"net/http"
 	"encoding/json"
+	"github.com/gorilla/mux"
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {
@@ -50,9 +51,10 @@ func (app *App) AtualizarUsuario(response http.ResponseWriter, request *http.Req
 func (app *App) RemoverUsuario(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
-	email := request.FormValue("email")
+	vars := mux.Vars(request)
+	email := vars["email"]
 
-	if email == "" {
+	if len(email) == 0 {
 		respondWithMessage(response, http.StatusBadRequest, "Email Inválido")
 		return
 	}
@@ -85,9 +87,10 @@ func (app *App) ListarUsuarios(response http.ResponseWriter, request *http.Reque
 func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
-	email := request.FormValue("email")
+	vars := mux.Vars(request)
+	email := vars["email"]
 
-	if email == "" {
+	if len(email) == 0 {
 		respondWithMessage(response, 400, "Email Inválido")
 		return
 	}
