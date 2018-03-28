@@ -32,7 +32,6 @@ func main() {
 	router.HandleFunc(url_base+"tecnologias/", app.AtualizarTecnologia).Methods("PATCH")
 	router.HandleFunc(url_base+"tecnologias/", app.RemoverTecnologia).Methods("DELETE")
 	router.HandleFunc(url_base+"tecnologias/", app.ListarTecnologias).Methods("GET")
-	router.HandleFunc(url_base+"tecnologias/tecnologia/", app.GetTecById).Methods("POST")
 
 	//Response EndPoints
 	router.HandleFunc(url_base+"responses/", app.SalvarResposta).Methods("POST")

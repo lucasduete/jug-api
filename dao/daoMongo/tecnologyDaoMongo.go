@@ -71,16 +71,3 @@ func (dao *TecnologyDaoMongo) Listar() ([]model.Tecnology, error) {
 		return tecs, err
 	}
 }
-
-func (dao *TecnologyDaoMongo) GetTecById(id int, tecnology model.Tecnology) error {
-	conn, err := connection.GetConnectionMongo()
-	defer conn.Logout()
-
-	if err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	err = conn.C(collection_tec).FindId(id).One(&tecnology)
-	return err
-}

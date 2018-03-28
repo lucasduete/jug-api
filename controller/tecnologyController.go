@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"jug-api/dao/daoMongo"
 	"log"
-	"github.com/gorilla/mux"
-	"strconv"
 )
 
 func (app *App) SalvarTecnologia(response http.ResponseWriter, request *http.Request) {
@@ -85,27 +83,4 @@ func (app *App) ListarTecnologias(response http.ResponseWriter, request *http.Re
 	} else {
 		respondWithJSON(response, 200, tecs)
 	}
-}
-
-func (app *App) GetTecById(response http.ResponseWriter, request *http.Request) {
-	defer request.Body.Close()
-
-	vars := mux.Vars(request)
-	id, err := strconv.Atoi(vars["id"])
-
-	if err != nil || id <= 0 {
-		respondWithMessage(response, 400, "Id Inválido")
-	}
-
-	tec := model.Tecnology{}
-	dao := daoMongo.TecnologyDaoMongo{}
-
-	if err := dao.GetTecById(id, tec); err != nil {
-		respondWithMessage(response, 500, "Erro ao Recuperar Tecnologia")
-	} else if tec.Nome == "" {
-		respondWithMessage(response, 204, "Tecnologia Não Encontrada")
-	} else {
-		respondWithJSON(response, 200, tec)
-	}
-
 }
