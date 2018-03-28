@@ -20,7 +20,9 @@ func (dao *TecnologyDaoMongo) Salvar(tecnology model.Tecnology) error {
 		return err
 	}
 
+	tecnology.ID = bson.NewObjectId()
 	err = conn.C(collection_tec).Insert(&tecnology)
+
 	return err
 }
 

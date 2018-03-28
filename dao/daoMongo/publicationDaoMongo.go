@@ -20,7 +20,9 @@ func (dao *PublicationDaoMongo) Salvar(publication model.Publication) error {
 		return err
 	}
 
+	publication.ID = bson.NewObjectId()
 	err = conn.C(collection_publ).Insert(&publication)
+
 	return err
 }
 

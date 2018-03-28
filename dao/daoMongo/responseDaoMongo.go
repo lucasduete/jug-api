@@ -20,6 +20,7 @@ func (dao *ResponseDaoMongo) Salvar(resp model.Response) error {
 		return err
 	}
 
+	resp.ID = bson.NewObjectId()
 	err = conn.C(collection_resp).Insert(&resp)
 
 	return err
