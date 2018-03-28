@@ -8,7 +8,6 @@ import (
 	"github.com/gorilla/mux"
 	"strconv"
 	"gopkg.in/mgo.v2/bson"
-	"encoding/hex"
 )
 
 func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Request) {
@@ -129,6 +128,5 @@ func (app *App) GetRespByPubl(response http.ResponseWriter, request *http.Reques
 	} else {
 		respondWithJSON(response, 200, resps)
 	}
-
 
 }
