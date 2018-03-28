@@ -19,7 +19,7 @@ func (dao *UserDaoPostgres) Salvar(user model.User) error {
 	}
 
 	_, err = conn.Exec("INSERT INTO Usuario(Nome, Username, Email, Senha) "+
-		"VALUES ($1,$2,$3,$4", user.Nome, user.Username, user.Email, user.Senha)
+		"VALUES ($1,$2,$3,$4)", user.Nome, user.Username, user.Email, user.Senha)
 
 	if err != nil {
 		log.Fatal(err)
