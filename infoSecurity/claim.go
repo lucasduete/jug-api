@@ -2,7 +2,7 @@ package infoSecurity
 
 import "github.com/dgrijalva/jwt-go"
 
-type Claims struct {
+type ApiClaims struct {
 	Email string `json:"email"`
 	jwt.StandardClaims
 }
