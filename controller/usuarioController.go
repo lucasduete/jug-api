@@ -1,11 +1,13 @@
 package controller
 
 import (
-	"jug-api/model"
-	"jug-api/dao/daoPostgres"
 	"net/http"
 	"encoding/json"
+
 	"github.com/gorilla/mux"
+
+	"jug-api/model"
+	"jug-api/dao/daoPostgres"
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {

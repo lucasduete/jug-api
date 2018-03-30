@@ -1,11 +1,12 @@
 package controller
 
 import (
-	"net/http"
-	"jug-api/model"
-	"encoding/json"
-	"jug-api/dao/daoMongo"
 	"log"
+	"net/http"
+	"encoding/json"
+
+	"jug-api/model"
+	"jug-api/dao/daoMongo"
 )
 
 func (app *App) SalvarTecnologia(response http.ResponseWriter, request *http.Request) {

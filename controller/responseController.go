@@ -1,13 +1,15 @@
 package controller
 
 import (
-	"net/http"
-	"jug-api/dao/daoMongo"
-	"encoding/json"
-	"jug-api/model"
-	"github.com/gorilla/mux"
 	"strconv"
+	"net/http"
+	"encoding/json"
+
 	"gopkg.in/mgo.v2/bson"
+	"github.com/gorilla/mux"
+
+	"jug-api/model"
+	"jug-api/dao/daoMongo"
 )
 
 func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Request) {

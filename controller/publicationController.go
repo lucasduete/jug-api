@@ -1,12 +1,14 @@
 package controller
 
 import (
-	"net/http"
-	"jug-api/model"
-	"encoding/json"
-	"jug-api/dao/daoMongo"
-	"github.com/gorilla/mux"
 	"strconv"
+	"net/http"
+	"encoding/json"
+
+	"github.com/gorilla/mux"
+
+	"jug-api/model"
+	"jug-api/dao/daoMongo"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {

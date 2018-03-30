@@ -1,11 +1,12 @@
 package dao
 
 import (
-	"database/sql"
-	_ "github.com/lib/pq"
 	"fmt"
 	"log"
+	"database/sql"
+
 	"gopkg.in/mgo.v2"
+	_ "github.com/lib/pq"
 )
 
 const (

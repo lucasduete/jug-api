@@ -2,9 +2,11 @@ package main
 
 import (
 	"os"
-	"github.com/gorilla/mux"
-	"net/http"
 	"fmt"
+	"net/http"
+
+	"github.com/gorilla/mux"
+
 	"jug-api/controller"
 )
 

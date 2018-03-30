@@ -1,10 +1,12 @@
 package daoMongo
 
 import (
+	"log"
+
+	"gopkg.in/mgo.v2/bson"
+
 	"jug-api/model"
 	connection "jug-api/dao"
-	"log"
-	"gopkg.in/mgo.v2/bson"
 )
 
 type ResponseDaoMongo struct {}

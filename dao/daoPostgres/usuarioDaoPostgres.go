@@ -1,10 +1,11 @@
 package daoPostgres
 
 import (
-	"jug-api/model"
-	connection "jug-api/dao"
 	"log"
 	"strings"
+
+	"jug-api/model"
+	connection "jug-api/dao"
 )
 
 type UserDaoPostgres struct{}
