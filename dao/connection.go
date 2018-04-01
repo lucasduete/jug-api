@@ -10,15 +10,15 @@ import (
 )
 
 const (
-	USER_POSTGRES     = "postgres"
-	PASSWORD_POSTGRES = "postgres"
-	SERVER_MONGO      = "172.17.0.2"
-	DATABASE          = "jug"
+	userPostgres     = "postgres"
+	passwordPostgres = "postgres"
+	serverMongo      = "172.17.0.2"
+	database         = "jug"
 )
 
 func GetConnectionPostgres() (*sql.DB, error) {
 	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable",
-		USER_POSTGRES, PASSWORD_POSTGRES, DATABASE)
+		userPostgres, passwordPostgres, database)
 
 	conn, err := sql.Open("postgres", connectionString)
 
@@ -30,13 +30,13 @@ func GetConnectionPostgres() (*sql.DB, error) {
 }
 
 func GetConnectionMongo() (*mgo.Database, error) {
-	session, err := mgo.Dial(SERVER_MONGO)
+	session, err := mgo.Dial(serverMongo)
 
 	if err != nil {
 		log.Fatal(err)
 		return nil, err
 	} else {
-		conn := session.DB(DATABASE)
+		conn := session.DB(database)
 		return conn, nil
 	}
 
