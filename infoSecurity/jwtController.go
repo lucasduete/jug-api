@@ -2,9 +2,32 @@ package infoSecurity
 
 import (
 	jwt "github.com/dgrijalva/jwt-go"
+	"net/http"
+	"log"
+	"time"
+	"fmt"
 )
 
 var secret = []byte("S3CR3t$K3Y_F0R_4p1_%JwT%_JUG-4p1")
+
+func GenerateToken(email string) (string, error) {
+
+	claims := ApiClaims {
+		email,
+		jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 5).Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString, err := token.SignedString(secret)
+
+	if err != nil {
+		fmt.Println("Problema ao gerar Token")
+	}
+
+	return tokenString, nil
+}
 
 func ValidateToken(myToken string) (bool, string) {
 	token, err := jwt.ParseWithClaims(myToken, &ApiClaims{},
