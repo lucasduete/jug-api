@@ -1,4 +1,4 @@
-package infoSecurity
+package infraSecurity
 
 import "github.com/dgrijalva/jwt-go"
 
