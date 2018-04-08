@@ -11,6 +11,6 @@ type Publication struct {
 	Titulo     string        `bson:titulo json:titulo`
 	Conteudo   string        `bson:conteudo json:conteudo`
 	Data       time.Time     `bson:data json:data`
-	EmailUser  string        `bson:emailUser json:emailUser`
-	tecnologia string        `bson:tecnologia json:tecnologia`
+	EmailUser  string        `bson:emailUser json:"-"`
+	Tecnologia string        `bson:tecnologia json:tecnologia`
 }
