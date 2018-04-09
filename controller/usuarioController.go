@@ -8,6 +8,8 @@ import (
 
 	"jug-api/model"
 	"jug-api/dao/daoPostgres"
+	"jug-api/infraSecurity"
+	"strings"
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {
@@ -33,10 +35,24 @@ func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Reques
 func (app *App) AtualizarUsuario(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	user := model.User{}
 
 	if err := json.NewDecoder(request.Body).Decode(&user); err != nil {
 		respondWithMessage(response, 400, "Usuário Inválido")
+		return
+	}
+
+	if strings.Compare(user.Email, email) != 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
 	}
 
 	dao := daoPostgres.UserDaoPostgres{}
@@ -53,11 +69,11 @@ func (app *App) AtualizarUsuario(response http.ResponseWriter, request *http.Req
 func (app *App) RemoverUsuario(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
-	vars := mux.Vars(request)
-	email := vars["email"]
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
 
-	if len(email) == 0 {
-		respondWithMessage(response, http.StatusBadRequest, "Email Inválido")
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
 		return
 	}
 
@@ -88,6 +104,14 @@ func (app *App) ListarUsuarios(response http.ResponseWriter, request *http.Reque
 
 func (app *App) GetUserByEmail(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	vars := mux.Vars(request)
 	email := vars["email"]
@@ -123,8 +147,10 @@ func (app *App) Login(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Realizar Login")
 	} else if status == false {
-		respondWithJSON(response, 401, "Usuário Não Autorizado")
+		respondWithMessage(response, 401, "Usuário Não Autorizado")
 	} else {
-		respondWithJSON(response, 200, "Usuário Autorizado")
+		user, _ := dao.GetUserByEmail(email)
+		user.Senha, _ = infraSecurity.GenerateToken(email)
+		respondWithJSON(response, 200, user)
 	}
 }
