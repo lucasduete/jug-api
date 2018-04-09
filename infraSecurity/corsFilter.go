@@ -4,7 +4,7 @@ import "github.com/rs/cors"
 
 func CorsFilter() *cors.Cors {
 	corsFilter := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://foo.com"},
+		AllowedOrigins: []string{"*"},
 		AllowedMethods : []string{"POST", "GET", "PATCH", "DELETE", "OPTIONS"},
 		AllowCredentials: true,
 		AllowedHeaders : []string{"Access-Control-Allow-Headers", "accept, origin, X-Requested-With, Content-Type, X-Codingpedia, Authorization"},
