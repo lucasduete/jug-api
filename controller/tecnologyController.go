@@ -7,10 +7,19 @@ import (
 
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
+	"jug-api/infraSecurity"
 )
 
 func (app *App) SalvarTecnologia(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	tec := model.Tecnology{}
 
@@ -31,6 +40,14 @@ func (app *App) SalvarTecnologia(response http.ResponseWriter, request *http.Req
 
 func (app *App) AtualizarTecnologia(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	tec := model.Tecnology{}
 
@@ -54,6 +71,14 @@ func (app *App) AtualizarTecnologia(response http.ResponseWriter, request *http.
 func (app *App) RemoverTecnologia(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	tec := model.Tecnology{}
 
 	if err := json.NewDecoder(request.Body).Decode(&tec); err != nil {
@@ -73,6 +98,14 @@ func (app *App) RemoverTecnologia(response http.ResponseWriter, request *http.Re
 
 func (app *App) ListarTecnologias(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	dao := daoMongo.TecnologyDaoMongo{}
 	tecs, err := dao.Listar()
