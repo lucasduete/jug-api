@@ -10,10 +10,20 @@ import (
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
 	"time"
+	"jug-api/infraSecurity"
+	"strings"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	publ := model.Publication{}
 
@@ -23,6 +33,7 @@ func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Re
 	}
 
 	publ.Data = time.Now()
+	publ.EmailUser = email
 
 	dao := daoMongo.PublicationDaoMongo{}
 	err := dao.Salvar(publ)
@@ -36,6 +47,14 @@ func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Re
 
 func (app *App) AtualizarPublication(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	publ := model.Publication{}
 
@@ -56,10 +75,23 @@ func (app *App) AtualizarPublication(response http.ResponseWriter, request *http
 func (app *App) RemoverPublication(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	publ := model.Publication{}
 
 	if err := json.NewDecoder(request.Body).Decode(&publ); err != nil {
 		respondWithMessage(response, 400, "Publicação Inválida")
+	}
+
+	if strings.Compare(publ.EmailUser, email) != 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
 	}
 
 	dao := daoMongo.PublicationDaoMongo{}
@@ -75,6 +107,14 @@ func (app *App) RemoverPublication(response http.ResponseWriter, request *http.R
 func (app *App) ListarPublications(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	dao := daoMongo.PublicationDaoMongo{}
 	publs, err := dao.Listar()
 
@@ -89,6 +129,14 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 
 func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)  {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	vars := mux.Vars(request)
 	id, err := strconv.Atoi(vars["id"])
@@ -113,6 +161,14 @@ func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)
 
 func (app *App) GetPublsByTec(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	vars := mux.Vars(request)
 	tecnology := vars["tecnologia"]
