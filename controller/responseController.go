@@ -11,10 +11,20 @@ import (
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
 	"time"
+	"jug-api/infraSecurity"
+	"strings"
 )
 
 func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	resp := model.Response{}
 
@@ -24,6 +34,7 @@ func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Reque
 	}
 
 	resp.Data = time.Now()
+	resp.EmailUser = email
 
 	dao := daoMongo.ResponseDaoMongo{}
 	err := dao.Salvar(resp)
@@ -38,10 +49,23 @@ func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Reque
 func (app *App) AtualizarResposta(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	resp := model.Response{}
 
 	if err := json.NewDecoder(request.Body).Decode(&resp); err != nil {
 		respondWithMessage(response, 400, "Resposta Inválida")
+	}
+
+	if strings.Compare(resp.EmailUser, email) != 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "")
+		return
 	}
 
 	dao := daoMongo.ResponseDaoMongo{}
@@ -57,12 +81,25 @@ func (app *App) AtualizarResposta(response http.ResponseWriter, request *http.Re
 func (app *App) RemoverResposta(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	resp := model.Response{}
 
 	if err := json.NewDecoder(request.Body).Decode(&resp); err != nil {
 		respondWithMessage(response, 400, "Resposta Inválida")
 		return
 	}
+
+	if err := json.NewDecoder(request.Body).Decode(&resp); err != nil {
+		respondWithMessage(response, 400, "Resposta Inválida")
+	}
+
 
 	dao := daoMongo.ResponseDaoMongo{}
 	err := dao.Remover(resp)
@@ -76,6 +113,14 @@ func (app *App) RemoverResposta(response http.ResponseWriter, request *http.Requ
 
 func (app *App) ListarRespostas(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	dao := daoMongo.ResponseDaoMongo{}
 	resps, err := dao.Listar()
@@ -91,6 +136,14 @@ func (app *App) ListarRespostas(response http.ResponseWriter, request *http.Requ
 
 func (app *App) GetRespById(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
 
 	vars := mux.Vars(request)
 	id, err := strconv.Atoi(vars["id"])
@@ -114,6 +167,14 @@ func (app *App) GetRespById(response http.ResponseWriter, request *http.Request)
 }
 
 func (app *App) GetRespByPubl(response http.ResponseWriter, request *http.Request) {
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	vars := mux.Vars(request)
 	temp := vars["idPublication"]
 
