@@ -139,6 +139,7 @@ func (app *App) Login(response http.ResponseWriter, request *http.Request) {
 
 	if email == "" || len(email) == 0 || senha == "" || len(senha) == 0 {
 		respondWithMessage(response, 400, "Dados Inválidos")
+		return
 	}
 
 	dao := daoPostgres.UserDaoPostgres{}
