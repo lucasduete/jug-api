@@ -9,6 +9,7 @@ import (
 
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
+	"time"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
@@ -20,6 +21,8 @@ func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Re
 		respondWithMessage(response, 400, "Publicação Inválida")
 		return
 	}
+
+	publ.Data = time.Now()
 
 	dao := daoMongo.PublicationDaoMongo{}
 	err := dao.Salvar(publ)

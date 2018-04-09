@@ -10,6 +10,7 @@ import (
 
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
+	"time"
 )
 
 func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Request) {
@@ -21,6 +22,8 @@ func (app *App) SalvarResposta(response http.ResponseWriter, request *http.Reque
 		respondWithMessage(response, 400, "Resposta Inválida")
 		return
 	}
+
+	resp.Data = time.Now()
 
 	dao := daoMongo.ResponseDaoMongo{}
 	err := dao.Salvar(resp)
