@@ -20,7 +20,7 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 }
 
 func respondWithMessage(w http.ResponseWriter, code int, message string) {
-	fmt.Fprint(w, message)
 	w.WriteHeader(code)
+	fmt.Fprint(w, message)
 }
 
