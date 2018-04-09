@@ -39,7 +39,7 @@ func main() {
 	router.HandleFunc(url_base+"responses/", app.SalvarResposta).Methods("POST")
 	router.HandleFunc(url_base+"responses/", app.AtualizarResposta).Methods("PATCH")
 	router.HandleFunc(url_base+"responses/", app.RemoverResposta).Methods("DELETE")
-	router.HandleFunc(url_base+"responses/", app.ListarTecnologias).Methods("GET")
+	router.HandleFunc(url_base+"responses/", app.ListarRespostas).Methods("GET")
 	router.HandleFunc(url_base+"responses/response/", app.GetRespById).Methods("POST")
 	router.HandleFunc(url_base+"responses/publication/", app.GetRespByPubl).Methods("POST")
 
