@@ -75,22 +75,23 @@ func (dao *PublicationDaoMongo) Listar() ([]model.Publication, error) {
 
 }
 
-func (dao *PublicationDaoMongo) GetPublById(id int, pub model.Publication) (error) {
+func (dao *PublicationDaoMongo) GetPublById(idPublication string) (*model.Publication, error) {
 	conn, err := connection.GetConnectionMongo()
 	defer conn.Logout()
 
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	}
 
-	err = conn.C(collection_publ).FindId(id).One(&pub)
+	var publ model.Publication
+	err = conn.C(collection_publ).FindId(bson.ObjectIdHex(idPublication)).One(&publ)
 
 	if err != nil {
 		log.Fatal(err)
-		return err
+		return nil, err
 	} else {
-		return nil
+		return &publ, nil
 	}
 }
 

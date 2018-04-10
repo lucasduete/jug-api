@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"strconv"
 	"net/http"
 	"encoding/json"
 
@@ -127,7 +126,7 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 	}
 }
 
-func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)  {
+func (app *App) GetPublById(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
 	token := request.Header.Get("Authorization")
@@ -139,16 +138,14 @@ func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)
 	}
 
 	vars := mux.Vars(request)
-	id, err := strconv.Atoi(vars["id"])
+	idPublication := vars["idPublication"]
 
-	if err != nil || id <= 0 {
+	if len(idPublication) == 0 {
 		respondWithMessage(response, 400, "ID Inválido")
 	}
 
-	publ := model.Publication{}
 	dao := daoMongo.PublicationDaoMongo{}
-
-	err = dao.GetPublById(id, publ)
+	publ, err := dao.GetPublById(idPublication)
 
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Publicação")
@@ -157,6 +154,7 @@ func (app *App) GetPublById(response http.ResponseWriter, request *http.Request)
 	} else {
 		respondWithJSON(response, 200, publ)
 	}
+
 }
 
 func (app *App) GetPublsByTec(response http.ResponseWriter, request *http.Request) {
