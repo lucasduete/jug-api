@@ -51,7 +51,7 @@ func main() {
 	router.HandleFunc(url_base+"publications/", app.AtualizarPublication).Methods("PATCH")
 	router.HandleFunc(url_base+"publications/", app.RemoverPublication).Methods("DELETE")
 	router.HandleFunc(url_base+"publications/", app.ListarPublications).Methods("GET")
-	router.HandleFunc(url_base+"publications/publication/", app.GetPublById).Methods("POST")
+	router.HandleFunc(url_base+"publications/{idPublication}", app.GetPublById).Methods("GET")
 	router.HandleFunc(url_base+"publications/tecnology/", app.GetPublsByTec).Methods("POST")
 
 	//Defaults EndPoints
