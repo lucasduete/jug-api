@@ -13,5 +13,4 @@ type Publication struct {
 	Data       time.Time     `bson:"data" json:"data"`
 	EmailUser  string        `bson:"emailUser" json:"-"`
 	Tecnologia string        `bson:"tecnologia" json:"tecnologia"`
-	Responses  []Response    `bson:"responses,omitempty", json:"responses"`
 }
