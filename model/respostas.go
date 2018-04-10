@@ -7,9 +7,8 @@ import (
 )
 
 type Response struct {
-	ID            bson.ObjectId `bson:_id json:"id"`
-	Conteudo      string        `bson:conteudo json:"conteudo"`
-	Data          time.Time     `bson:data json:"data"`
-	EmailUser     string        `bson:emailUser json:"-"`
-	IdPublication bson.ObjectId `bson:idPublication json:"idPublication"`
+	ID            bson.ObjectId `bson:"_id,omitempty" json:"id"`
+	Conteudo      string        `bson:"conteudo" json:"conteudo"`
+	Data          time.Time     `bson:"data" json:"data"`
+	EmailUser     string        `bson:"emailUser" json:"-"`
 }
