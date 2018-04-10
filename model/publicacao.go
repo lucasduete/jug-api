@@ -7,7 +7,7 @@ import (
 )
 
 type Publication struct {
-	ID         bson.ObjectId `bson:"_id" json:id`
+	ID         bson.ObjectId `bson:"_id" json:"id"`
 	Titulo     string        `bson:"titulo" json:"titulo"`
 	Conteudo   string        `bson:"conteudo" json:"conteudo"`
 	Data       time.Time     `bson:"data" json:"data"`
