@@ -186,3 +186,33 @@ func (app *App) GetPublsByTec(response http.ResponseWriter, request *http.Reques
 		respondWithJSON(response, 200, publs)
 	}
 }
+
+func (app *App) GetPublsByIndice(response http.ResponseWriter, request *http.Request) {
+	defer request.Body.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
+	param := request.FormValue("param")
+
+	if len(param) == 0 {
+		respondWithMessage(response, 400, "Parametro inválido.")
+	}
+
+	dao := daoMongo.PublicationDaoMongo{}
+	publs, err := dao.GetPublsByIndice(param)
+
+	if err != nil {
+		respondWithMessage(response, 500, "Erro ao Recuperar Publicação")
+	} else if len(publs) == 0 {
+		respondWithMessage(response, 204, "Publicação Não Foi Econtrada")
+	} else {
+		respondWithJSON(response, 200, publs)
+	}
+
+}
