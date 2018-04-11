@@ -4,6 +4,8 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"time"
 	"fmt"
+	"jug-api/dao"
+	redis2 "github.com/go-redis/redis"
 )
 
 var secret = []byte("S3CR3t$K3Y_F0R_4p1_%JwT%_JUG-4p1")
@@ -28,6 +30,15 @@ func GenerateToken(email string) (string, error) {
 }
 
 func ValidateToken(myToken string) (bool, string) {
+
+	redis := dao.GetConnectionRedis()
+	defer redis.Close()
+
+	redisToken, err := redis.Get("myToken").Result()
+	if err != redis2.Nil {
+		return false, redisToken
+	}
+
 	token, err := jwt.ParseWithClaims(myToken, &ApiClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			return []byte(secret), nil
