@@ -1,18 +1,19 @@
 package controller
 
 import (
+	"fmt"
+	"time"
+	"strings"
 	"net/http"
 	"encoding/json"
 
+	"gopkg.in/mgo.v2/bson"
 	"github.com/gorilla/mux"
+	"github.com/garyburd/redigo/redis"
 
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
-	"time"
 	"jug-api/infraSecurity"
-	"strings"
-	"fmt"
-	"gopkg.in/mgo.v2/bson"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
