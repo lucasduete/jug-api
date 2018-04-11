@@ -54,6 +54,7 @@ func main() {
 	router.HandleFunc(url_base+"publications/{idPublication}", app.GetPublById).Methods("GET")
 	router.HandleFunc(url_base+"publications/tecnology/", app.GetPublsByTec).Methods("POST")
 	router.HandleFunc(url_base+"publications/search/", app.GetPublsByIndice).Methods("GET")
+	router.HandleFunc(url_base+"publications/recomendation/{idPublication}", app.GetRecomendation).Methods("GET")
 
 	//Defaults EndPoints
 	router.HandleFunc("/*", app.NotFound)

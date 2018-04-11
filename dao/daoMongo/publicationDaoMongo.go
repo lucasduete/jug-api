@@ -134,3 +134,23 @@ func (dao *PublicationDaoMongo) GetPublsByIndice(param string) ([]model.Publicat
 		return publs, nil
 	}
 }
+
+func (dao *PublicationDaoMongo) GetRecomendation(param, tecnology string) ([]model.Publication, error) {
+	conn, err := connection.GetConnectionMongo()
+	defer conn.Logout()
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	}
+
+	publs := []model.Publication{}
+	err = conn.C(collection_publ).Find(bson.M{"$text": bson.M{"$search": param}, "tecnologia": tecnology}).Limit(5).All(&publs)
+
+	if err != nil {
+		log.Fatal(err)
+		return nil, err
+	} else {
+		return publs, nil
+	}
+}
