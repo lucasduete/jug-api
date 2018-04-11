@@ -10,6 +10,6 @@ type Response struct {
 	ID            bson.ObjectId `bson:"_id,omitempty" json:"id"`
 	Conteudo      string        `bson:"conteudo" json:"conteudo"`
 	Data          time.Time     `bson:"data" json:"data"`
-	EmailUser     string        `bson:"emailUser" json:"-"`
-	IdPublication string        `bson:"idPublication" json:"idPublication"`
+	EmailUser     string        `bson:"emailUser" json:"emailUser"`
+	IdPublication bson.ObjectId `bson:"idPublication" json:"idPublication"`
 }
