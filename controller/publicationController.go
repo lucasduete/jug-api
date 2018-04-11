@@ -11,6 +11,8 @@ import (
 	"time"
 	"jug-api/infraSecurity"
 	"strings"
+	"fmt"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
@@ -202,6 +204,7 @@ func (app *App) GetPublsByIndice(response http.ResponseWriter, request *http.Req
 
 	if len(param) == 0 {
 		respondWithMessage(response, 400, "Parametro inválido.")
+		return
 	}
 
 	dao := daoMongo.PublicationDaoMongo{}
@@ -227,21 +230,51 @@ func (app *App) GetRecomendation(response http.ResponseWriter, request *http.Req
 		return
 	}
 
-	param := request.FormValue("param")
-	tec := request.FormValue("tecnologia")
+	vars := mux.Vars(request)
+	idPublication := vars["idPublication"]
 
-	if len(param) == 0 || len(tec) == 0 {
-		respondWithMessage(response, 400, "Parametros inválidos.")
+	if len(idPublication) == 0 {
+		respondWithMessage(response, 400, "ID Inválido")
+		return
 	}
 
 	dao := daoMongo.PublicationDaoMongo{}
-	publs, err := dao.GetPublsByIndice(param)
+	publ, err := dao.GetPublById(idPublication)
 
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Publicação")
-	} else if len(publs) == 0 {
+		return
+	}
+
+	publs, err := dao.GetRecomendation(publ.Titulo, publ.Tecnologia)
+
+	if err != nil {
+		respondWithMessage(response, 500, "Erro ao Recuperar Publicação")
+		return
+	}
+
+	publsRecomendation := removeDuplicate(publs, idPublication)
+
+	if err != nil {
+		respondWithMessage(response, 500, "Erro ao Recuperar Publicação")
+	} else if len(publsRecomendation) == 0 {
 		respondWithMessage(response, 204, "Não foram Encontradas Publicações")
 	} else {
-		respondWithJSON(response, 200, publs)
+		respondWithJSON(response, 200, publsRecomendation)
 	}
 }
+
+
+func removeDuplicate(publs []model.Publication, index string) []model.Publication {
+
+	publsClean := []model.Publication{}
+	idPubl := bson.ObjectIdHex(index)
+	for i := 0; i < len(publs); i++ {
+		if strings.Compare(publs[i].ID.String(), idPubl.String()) != 0 {
+			fmt.Println(publs[i].ID.String())
+			publsClean = append(publsClean, publs[i])
+		}
+	}
+	return publsClean
+}
+
