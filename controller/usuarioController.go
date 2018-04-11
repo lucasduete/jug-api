@@ -10,6 +10,8 @@ import (
 	"jug-api/dao/daoPostgres"
 	"jug-api/infraSecurity"
 	"strings"
+	"jug-api/dao"
+	"time"
 )
 
 func (app *App) SalvarUsuario(response http.ResponseWriter, request *http.Request) {
@@ -154,4 +156,20 @@ func (app *App) Login(response http.ResponseWriter, request *http.Request) {
 		user.Senha, _ = infraSecurity.GenerateToken(email)
 		respondWithJSON(response, 200, user)
 	}
+}
+
+func (app *App) Logout(response http.ResponseWriter, request *http.Request) {
+
+	redis := dao.GetConnectionRedis()
+	defer redis.Close()
+
+	token := request.Header.Get("Authorization")
+	tokenValid, email := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false || len(email) == 0 {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
+	redis.Set(token, token, time.Hour*24)
 }
