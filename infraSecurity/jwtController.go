@@ -34,7 +34,7 @@ func ValidateToken(myToken string) (bool, string) {
 	redis := dao.GetConnectionRedis()
 	defer redis.Close()
 
-	redisToken, err := redis.Get("myToken").Result()
+	redisToken, err := redis.Get(myToken).Result()
 	if err != redis2.Nil {
 		return false, redisToken
 	}
