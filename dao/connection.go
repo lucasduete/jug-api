@@ -7,7 +7,7 @@ import (
 
 	"gopkg.in/mgo.v2"
 	_ "github.com/lib/pq"
-	"github.com/garyburd/redigo/redis"
+	"github.com/go-redis/redis"
 )
 
 const (
@@ -43,8 +43,12 @@ func GetConnectionMongo() (*mgo.Database, error) {
 
 }
 
-func getConnectionRedis() redis.Conn {
-	c, err := redis.Dial("tcp", ":6379")
-	log.Fatal(err)
-	return c
+func GetConnectionRedis() *redis.Client {
+	client := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "", // no password set
+		DB:       0,  // use default DB
+	})
+
+	return client
 }
