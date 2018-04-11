@@ -31,6 +31,7 @@ func main() {
 	router.HandleFunc(url_base+"usuarios/", app.ListarUsuarios).Methods("GET")
 	router.HandleFunc(url_base+"usuarios/usuario/{email}", app.GetUserByEmail).Methods("GET")
 	router.HandleFunc(url_base+"usuarios/login/", app.Login).Methods("POST")
+	router.HandleFunc(url_base+"usuarios/logout/", app.Logout).Methods("POST")
 
 	//Tecnology EndPoints
 	router.HandleFunc(url_base+"tecnologias/", app.SalvarTecnologia).Methods("POST")
