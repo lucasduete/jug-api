@@ -9,15 +9,24 @@ import (
 
 	"gopkg.in/mgo.v2/bson"
 	"github.com/gorilla/mux"
-	"github.com/garyburd/redigo/redis"
 
 	"jug-api/model"
 	"jug-api/dao/daoMongo"
 	"jug-api/infraSecurity"
+	dao2 "jug-api/dao"
+	redis2 "github.com/go-redis/redis"
 )
+
+var currentPostId int
+var currentUserId int
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
+
+	redis := dao2.GetConnectionRedis()
+	defer redis.Close()
+
+	redis.Del("listPublications")
 
 	token := request.Header.Get("Authorization")
 	tokenValid, email := infraSecurity.ValidateToken(token)
@@ -109,6 +118,16 @@ func (app *App) RemoverPublication(response http.ResponseWriter, request *http.R
 func (app *App) ListarPublications(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	publs := []model.Publication{}
+
+	redis := dao2.GetConnectionRedis()
+	defer redis.Close()
+
+	err := redis.Get("listPublications").Scan(&publs);
+	if err != redis2.Nil {
+		respondWithJSON(response, 200, publs)
+	}
+
 	token := request.Header.Get("Authorization")
 	tokenValid, _ := infraSecurity.ValidateToken(token)
 
@@ -118,7 +137,9 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 	}
 
 	dao := daoMongo.PublicationDaoMongo{}
-	publs, err := dao.Listar()
+	publs, err = dao.Listar()
+
+	redis.Set("listPublications", publs, time.Hour*5)
 
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Publicações")
@@ -265,7 +286,6 @@ func (app *App) GetRecomendation(response http.ResponseWriter, request *http.Req
 	}
 }
 
-
 func removeDuplicate(publs []model.Publication, index string) []model.Publication {
 
 	publsClean := []model.Publication{}
@@ -278,4 +298,3 @@ func removeDuplicate(publs []model.Publication, index string) []model.Publicatio
 	}
 	return publsClean
 }
-
