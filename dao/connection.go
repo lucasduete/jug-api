@@ -7,6 +7,7 @@ import (
 
 	"gopkg.in/mgo.v2"
 	_ "github.com/lib/pq"
+	"github.com/garyburd/redigo/redis"
 )
 
 const (
@@ -40,4 +41,10 @@ func GetConnectionMongo() (*mgo.Database, error) {
 		return conn, nil
 	}
 
+}
+
+func getConnectionRedis() redis.Conn {
+	c, err := redis.Dial("tcp", ":6379")
+	log.Fatal(err)
+	return c
 }
