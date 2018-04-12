@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 
 	"jug-api/controller"
-	"jug-api/infraSecurity"
+	"github.com/gorilla/handlers"
 )
 
 var app = controller.App{}
@@ -21,8 +21,6 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-
-	cors := infraSecurity.CorsFilter()
 
 	//Users EndPoints
 	router.HandleFunc(url_base+"usuarios/", app.SalvarUsuario).Methods("POST")
@@ -60,8 +58,12 @@ func main() {
 	//Defaults EndPoints
 	router.HandleFunc("/*", app.NotFound)
 
-	handler := cors.Handler(router)
-
 	fmt.Println("Servidor Rodando na Porta " + port)
-	http.ListenAndServe(":"+port, handler)
+	http.ListenAndServe(":"+port, handlers.CORS(
+		handlers.AllowedOrigins([]string{"*", "*/*"}),
+		handlers.AllowedHeaders([]string{"POST", "GET", "PATCH", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Access-Control-Allow-Headers", "accept, origin, X-Requested-With, Content-Type, X-Codingpedia, Authorization"}),
+		handlers.AllowCredentials(),
+		handlers.MaxAge(172800),
+	)(router))
 }

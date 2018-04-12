@@ -15,7 +15,6 @@ import (
 	"jug-api/infraSecurity"
 	dao2 "jug-api/dao"
 	redis2 "github.com/go-redis/redis"
-	"github.com/garyburd/redigo/redis"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
