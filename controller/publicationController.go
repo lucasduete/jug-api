@@ -15,6 +15,7 @@ import (
 	"jug-api/infraSecurity"
 	dao2 "jug-api/dao"
 	redis2 "github.com/go-redis/redis"
+	"github.com/garyburd/redigo/redis"
 )
 
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
@@ -122,6 +123,14 @@ func (app *App) RemoverPublication(response http.ResponseWriter, request *http.R
 func (app *App) ListarPublications(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
 
+	token := request.Header.Get("Authorization")
+	tokenValid, _ := infraSecurity.ValidateToken(token)
+
+	if tokenValid == false {
+		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
+		return
+	}
+
 	publs := []model.Publication{}
 
 	redis := dao2.GetConnectionRedis()
@@ -134,14 +143,6 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 		}
 
 		respondWithJSON(response, 200, publs)
-		return
-	}
-
-	token := request.Header.Get("Authorization")
-	tokenValid, _ := infraSecurity.ValidateToken(token)
-
-	if tokenValid == false {
-		respondWithMessage(response, http.StatusUnauthorized, "Token Inválido")
 		return
 	}
 
