@@ -123,9 +123,14 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 	redis := dao2.GetConnectionRedis()
 	defer redis.Close()
 
-	err := redis.Get("listPublications").Scan(&publs);
+	cachePubls, err := redis.Get("listPublications").Result()
 	if err != redis2.Nil {
+		if err := json.Unmarshal([]byte(cachePubls), &publs); err != nil {
+			return
+		}
+		
 		respondWithJSON(response, 200, publs)
+		return
 	}
 
 	token := request.Header.Get("Authorization")
@@ -139,13 +144,14 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 	dao := daoMongo.PublicationDaoMongo{}
 	publs, err = dao.Listar()
 
-	redis.Set("listPublications", publs, time.Hour*5)
-
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Recuperar Publicações")
 	} else if len(publs) == 0 {
 		respondWithMessage(response, 204, "Não Há Publicações Salvas")
 	} else {
+		cachePubls, _ := json.Marshal(publs)
+		redis.Set("listPublications", cachePubls, time.Hour*5).Result()
+
 		respondWithJSON(response, 200, publs)
 	}
 }
