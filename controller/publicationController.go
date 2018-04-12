@@ -17,16 +17,8 @@ import (
 	redis2 "github.com/go-redis/redis"
 )
 
-var currentPostId int
-var currentUserId int
-
 func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Request) {
 	defer request.Body.Close()
-
-	redis := dao2.GetConnectionRedis()
-	defer redis.Close()
-
-	redis.Del("listPublications")
 
 	token := request.Header.Get("Authorization")
 	tokenValid, email := infraSecurity.ValidateToken(token)
@@ -52,6 +44,10 @@ func (app *App) SalvarPublication(response http.ResponseWriter, request *http.Re
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Salvar Publicação")
 	} else {
+		redis := dao2.GetConnectionRedis()
+		defer redis.Close()
+
+		redis.Del("listPublications")
 		respondWithMessage(response, 200, "Publicação Salva com Sucesso")
 	}
 }
@@ -79,6 +75,10 @@ func (app *App) AtualizarPublication(response http.ResponseWriter, request *http
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Atualizar Publicação")
 	} else {
+		redis := dao2.GetConnectionRedis()
+		defer redis.Close()
+
+		redis.Del("listPublications")
 		respondWithMessage(response, 200, "Publicação Atualizada com Sucesso")
 	}
 }
@@ -111,6 +111,10 @@ func (app *App) RemoverPublication(response http.ResponseWriter, request *http.R
 	if err != nil {
 		respondWithMessage(response, 500, "Erro ao Remover Publicação")
 	} else {
+		redis := dao2.GetConnectionRedis()
+		defer redis.Close()
+
+		redis.Del("listPublications")
 		respondWithMessage(response, 200, "Publicação Removida com Sucesso")
 	}
 }
@@ -128,7 +132,7 @@ func (app *App) ListarPublications(response http.ResponseWriter, request *http.R
 		if err := json.Unmarshal([]byte(cachePubls), &publs); err != nil {
 			return
 		}
-		
+
 		respondWithJSON(response, 200, publs)
 		return
 	}
