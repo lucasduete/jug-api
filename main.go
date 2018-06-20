@@ -62,7 +62,7 @@ func main() {
 	http.ListenAndServe(":"+port, handlers.CORS(
 		handlers.AllowedOrigins([]string{"*", "*/*"}),
 		handlers.AllowedHeaders([]string{"POST", "GET", "PATCH", "DELETE", "OPTIONS"}),
-		handlers.AllowedHeaders([]string{"Access-Control-Allow-Headers", "accept, origin, X-Requested-With, Content-Type, X-Codingpedia, Authorization"}),
+		handlers.AllowedHeaders([]string{"Accept", "Origin", "X-Requested-With", "Content-Type", "X-Codingpedia", "Authorization"}),
 		handlers.AllowCredentials(),
 		handlers.MaxAge(172800),
 	)(router))
